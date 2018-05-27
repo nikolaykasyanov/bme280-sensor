@@ -47,6 +47,7 @@ class BME280 {
 
     this.REGISTER_CONTROL_HUM   = 0xF2;
     this.REGISTER_CONTROL       = 0xF4;
+    this.REGISTER_CONFIG        = 0xF5;
     this.REGISTER_PRESSURE_DATA = 0xF7;
     this.REGISTER_TEMP_DATA     = 0xFA;
     this.REGISTER_HUMIDITY_DATA = 0xFD;
@@ -77,17 +78,24 @@ class BME280 {
                 return reject(err);
               }
 
-              // Humidity 16x oversampling
+              // Humidity 1x oversampling
               //
               this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL_HUM, 0b00000001, (err) => {
                 if(err) {
                   return reject(err);
                 }
 
-                // Temperture/pressure 16x oversampling, normal mode
-                //
-                this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL, 0b00100110, (err) => {
-                  return err ? reject(err) : resolve(chipId);
+                // Filter off
+                this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONFIG, 0b00000000, (err) => {
+                  if (err) {
+                    return reject(err);
+                  }
+
+                  // Temperture/pressure 1x oversampling, forced mode
+                  //
+                  this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL, 0b00100110, (err) => {
+                    return err ? reject(err) : resolve(chipId);
+                  });
                 });
               });
             });
