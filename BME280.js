@@ -13,7 +13,7 @@ class BME280 {
   constructor(options) {
     const i2c = require('i2c-bus');
 
-    this.i2cBusNo = (options && options.hasOwnProperty('i2cBusNo')) ? options.i2cBusNo : 1;    
+    this.i2cBusNo = (options && options.hasOwnProperty('i2cBusNo')) ? options.i2cBusNo : 1;
     this.i2cBus = i2c.openSync(this.i2cBusNo);
     this.i2cAddress = (options && options.hasOwnProperty('i2cAddress')) ? options.i2cAddress : BME280.BME280_DEFAULT_I2C_ADDRESS();
 
@@ -245,7 +245,7 @@ class BME280 {
     return ((msb << 8 | lsb) << 8 | xlsb) >> 4;
   }
 
-  static convertCelciusToFahrenheit(c) { 
+  static convertCelciusToFahrenheit(c) {
     return c * 9 / 5 + 32;
   }
 
@@ -266,7 +266,7 @@ class BME280 {
   }
 
   static calculateDewPointCelcius(temperature_C, humidity) {
-    return 243.04 * (Math.log(humidity/100.0) + ((17.625 * temperature_C)/(243.04 + temperature_C))) / 
+    return 243.04 * (Math.log(humidity/100.0) + ((17.625 * temperature_C)/(243.04 + temperature_C))) /
            (17.625 - Math.log(humidity/100.0) - ((17.625 * temperature_C)/(243.04 + temperature_C)));
   }
 
