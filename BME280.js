@@ -85,15 +85,15 @@ class BME280 {
                   return reject(err);
                 }
 
-                // Filter off
-                this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONFIG, 0b00000000, (err) => {
+                // Filter off, standby 1000ms
+                this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONFIG, 0b10100000, (err) => {
                   if (err) {
                     return reject(err);
                   }
 
-                  // Temperture/pressure 1x oversampling, forced mode
+                  // Temperture/pressure 1x oversampling, normal mode
                   //
-                  this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL, 0b00100110, (err) => {
+                  this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL, 0b00100111, (err) => {
                     return err ? reject(err) : resolve(chipId);
                   });
                 });
