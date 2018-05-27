@@ -79,14 +79,14 @@ class BME280 {
 
               // Humidity 16x oversampling
               //
-              this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL_HUM, 0b00000101, (err) => {
+              this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL_HUM, 0b00000001, (err) => {
                 if(err) {
                   return reject(err);
                 }
 
                 // Temperture/pressure 16x oversampling, normal mode
                 //
-                this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL, 0b10110111, (err) => {
+                this.i2cBus.writeByte(this.i2cAddress, this.REGISTER_CONTROL, 0b00100110, (err) => {
                   return err ? reject(err) : resolve(chipId);
                 });
               });
